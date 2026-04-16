@@ -1,4 +1,4 @@
-import { db } from "./firebase";
+import { db } from './firebase';
 import {
   collection,
   doc,
@@ -10,10 +10,10 @@ import {
   where,
   orderBy,
   Timestamp,
-} from "firebase/firestore";
+} from 'firebase/firestore';
 
 export async function getUserByEmail(email: string) {
-  const q = query(collection(db, "users"), where("email", "==", email));
+  const q = query(collection(db, 'users'), where('email', '==', email));
   const snap = await getDocs(q);
   if (snap.empty) return null;
   const d = snap.docs[0];
@@ -25,12 +25,8 @@ export async function getUserByEmail(email: string) {
   };
 }
 
-export async function createUser(
-  name: string,
-  email: string,
-  password: string,
-) {
-  const ref = await addDoc(collection(db, "users"), {
+export async function createUser(name: string, email: string, password: string) {
+  const ref = await addDoc(collection(db, 'users'), {
     name,
     email,
     password,
@@ -41,20 +37,16 @@ export async function createUser(
 
 export async function getNotesByUser(userId: string) {
   const q = query(
-    collection(db, "notes"),
-    where("user_id", "==", userId),
-    orderBy("created_at", "desc"),
+    collection(db, 'notes'),
+    where('user_id', '==', userId),
+    orderBy('created_at', 'desc'),
   );
   const snap = await getDocs(q);
   return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
 }
 
-export async function createNote(
-  userId: string,
-  title: string,
-  content: string,
-) {
-  const ref = await addDoc(collection(db, "notes"), {
+export async function createNote(userId: string, title: string, content: string) {
+  const ref = await addDoc(collection(db, 'notes'), {
     user_id: userId,
     title,
     content,
@@ -64,7 +56,7 @@ export async function createNote(
 }
 
 export async function deleteNote(noteId: string, userId: string) {
-  const ref = doc(db, "notes", noteId);
+  const ref = doc(db, 'notes', noteId);
   const snap = await getDoc(ref);
   if (!snap.exists() || snap.data().user_id !== userId) return false;
   await deleteDoc(ref);

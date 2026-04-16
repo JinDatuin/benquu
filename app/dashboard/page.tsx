@@ -1,11 +1,11 @@
-"use client";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import Navbar from "@/app/components/Navbar";
-import MarkdownEditor from "@/app/components/MarkdownEditor";
-import { getNotesByUser, createNote, deleteNote } from "@/lib/db";
+'use client';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import Navbar from '@/app/components/Navbar';
+import MarkdownEditor from '@/app/components/MarkdownEditor';
+import { getNotesByUser, createNote, deleteNote } from '@/lib/db';
 
 type Note = {
   id: string;
@@ -13,21 +13,21 @@ type Note = {
   content: string;
   created_at: { seconds: number };
 };
-type View = "list" | "create" | "open";
+type View = 'list' | 'create' | 'open';
 
 export default function Dashboard() {
   const router = useRouter();
   const [userId, setUserId] = useState<string | null>(null);
   const [notes, setNotes] = useState<Note[]>([]);
-  const [view, setView] = useState<View>("list");
-  const [form, setForm] = useState({ title: "", content: "" });
+  const [view, setView] = useState<View>('list');
+  const [form, setForm] = useState({ title: '', content: '' });
   const [selected, setSelected] = useState<Note | null>(null);
-  const [editorTab, setEditorTab] = useState<"write" | "preview">("write");
+  const [editorTab, setEditorTab] = useState<'write' | 'preview'>('write');
 
   useEffect(() => {
-    fetch("/api/auth/me", { credentials: "include" }).then(async (res) => {
+    fetch('/api/auth/me', { credentials: 'include' }).then(async (res) => {
       if (res.status === 401) {
-        router.push("/signin");
+        router.push('/signin');
         return;
       }
       const { id } = await res.json();
@@ -39,16 +39,16 @@ export default function Dashboard() {
   async function addNote(e: React.FormEvent) {
     e.preventDefault();
     if (!userId) return;
-    await createNote(userId, form.title, form.content || "");
-    setForm({ title: "", content: "" });
+    await createNote(userId, form.title, form.content || '');
+    setForm({ title: '', content: '' });
     setNotes((await getNotesByUser(userId)) as Note[]);
-    setView("list");
+    setView('list');
   }
 
   async function handleDelete(id: string) {
     if (!userId) return;
     await deleteNote(id, userId);
-    setView("list");
+    setView('list');
     setNotes((await getNotesByUser(userId)) as Note[]);
   }
 
@@ -58,15 +58,15 @@ export default function Dashboard() {
 
       <main className="flex-1 px-6 py-10 w-full max-w-[800px] mx-auto">
         {/* LIST VIEW */}
-        {view === "list" && (
+        {view === 'list' && (
           <>
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-medium m-0">Notes</h2>
               <button
                 onClick={() => {
-                  setForm({ title: "", content: "" });
-                  setEditorTab("write");
-                  setView("create");
+                  setForm({ title: '', content: '' });
+                  setEditorTab('write');
+                  setView('create');
                 }}
                 className="px-5 py-2 bg-[#1a6fd4] text-white border-0 rounded text-sm font-semibold cursor-pointer"
               >
@@ -82,7 +82,10 @@ export default function Dashboard() {
               {notes.map((note) => (
                 <div
                   key={note.id}
-                  onClick={() => { setSelected(note); setView("open"); }}
+                  onClick={() => {
+                    setSelected(note);
+                    setView('open');
+                  }}
                   className="border border-[#e5e5e5] rounded-md px-5 py-4 cursor-pointer hover:border-[#1a6fd4] transition-colors"
                 >
                   <div className="flex justify-between items-center">
@@ -93,7 +96,7 @@ export default function Dashboard() {
                   </div>
                   {note.content && (
                     <p className="mt-1.5 text-[13px] text-[#888] whitespace-nowrap overflow-hidden text-ellipsis">
-                      {note.content.replace(/[#*`_>~\-\[\]]/g, "").slice(0, 120)}
+                      {note.content.replace(/[#*`_>~\-\[\]]/g, '').slice(0, 120)}
                     </p>
                   )}
                 </div>
@@ -103,11 +106,11 @@ export default function Dashboard() {
         )}
 
         {/* CREATE VIEW */}
-        {view === "create" && (
+        {view === 'create' && (
           <>
             <div className="flex items-center gap-3 mb-5">
               <button
-                onClick={() => setView("list")}
+                onClick={() => setView('list')}
                 className="bg-transparent border-0 text-[#1a6fd4] cursor-pointer text-sm p-0"
               >
                 ← Back
@@ -142,7 +145,7 @@ export default function Dashboard() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setView("list")}
+                  onClick={() => setView('list')}
                   className="px-5 py-2.5 bg-white text-[#555] border border-[#ddd] rounded text-sm cursor-pointer"
                 >
                   Cancel
@@ -153,11 +156,11 @@ export default function Dashboard() {
         )}
 
         {/* OPEN / READ VIEW */}
-        {view === "open" && selected && (
+        {view === 'open' && selected && (
           <>
             <div className="flex items-center justify-between mb-6">
               <button
-                onClick={() => setView("list")}
+                onClick={() => setView('list')}
                 className="bg-transparent border-0 text-[#1a6fd4] cursor-pointer text-sm p-0"
               >
                 ← Back
@@ -177,9 +180,7 @@ export default function Dashboard() {
 
             <div className="border border-[#30363d] rounded-md p-6 bg-[#0d1117] text-[#e6edf3]">
               <div className="md-preview">
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                  {selected.content}
-                </ReactMarkdown>
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>{selected.content}</ReactMarkdown>
               </div>
             </div>
 

@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
   --background: #ffffff;
@@ -12,7 +12,7 @@
   --dropdown-hover: #2a2a2a;
 }
 
-[data-theme="dark"] {
+[data-theme='dark'] {
   --background: #0a0a0a;
   --foreground: #ededed;
   --nav-bg: #111111;
@@ -20,7 +20,7 @@
   --nav-color: #aaa;
 }
 
-[data-theme="light"] {
+[data-theme='light'] {
   --background: #ffffff;
   --foreground: #171717;
   --nav-bg: #ffffff;

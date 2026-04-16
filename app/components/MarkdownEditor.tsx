@@ -1,13 +1,13 @@
-"use client";
-import { useRef } from "react";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+'use client';
+import { useRef } from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 type Props = {
   value: string;
   onChange: (val: string) => void;
-  tab: "write" | "preview";
-  onTabChange: (tab: "write" | "preview") => void;
+  tab: 'write' | 'preview';
+  onTabChange: (tab: 'write' | 'preview') => void;
   placeholder?: string;
   minHeight?: number;
 };
@@ -18,68 +18,66 @@ type ToolbarAction = {
   action: (selected: string) => { text: string; offset: number };
 };
 
-const actions: (ToolbarAction | "sep")[] = [
+const actions: (ToolbarAction | 'sep')[] = [
   {
-    label: "H",
-    title: "Heading",
-    action: (s) => ({ text: s ? `## ${s}` : "## Heading", offset: 3 }),
+    label: 'H',
+    title: 'Heading',
+    action: (s) => ({ text: s ? `## ${s}` : '## Heading', offset: 3 }),
   },
   {
-    label: "B",
-    title: "Bold",
-    action: (s) => ({ text: `**${s || "bold"}**`, offset: 2 }),
+    label: 'B',
+    title: 'Bold',
+    action: (s) => ({ text: `**${s || 'bold'}**`, offset: 2 }),
   },
   {
-    label: "I",
-    title: "Italic",
-    action: (s) => ({ text: `*${s || "italic"}*`, offset: 1 }),
+    label: 'I',
+    title: 'Italic',
+    action: (s) => ({ text: `*${s || 'italic'}*`, offset: 1 }),
   },
   {
-    label: "≡",
-    title: "Quote",
-    action: (s) => ({ text: `> ${s || "quote"}`, offset: 2 }),
+    label: '≡',
+    title: 'Quote',
+    action: (s) => ({ text: `> ${s || 'quote'}`, offset: 2 }),
   },
   {
-    label: "<>",
-    title: "Code",
+    label: '<>',
+    title: 'Code',
     action: (s) => ({
-      text: s?.includes("\n")
-        ? `\`\`\`\n${s || "code"}\n\`\`\``
-        : `\`${s || "code"}\``,
+      text: s?.includes('\n') ? `\`\`\`\n${s || 'code'}\n\`\`\`` : `\`${s || 'code'}\``,
       offset: 1,
     }),
   },
   {
-    label: "🔗",
-    title: "Link",
-    action: (s) => ({ text: `[${s || "text"}](url)`, offset: 1 }),
+    label: '🔗',
+    title: 'Link',
+    action: (s) => ({ text: `[${s || 'text'}](url)`, offset: 1 }),
   },
-  "sep",
+  'sep',
   {
-    label: "1.",
-    title: "Ordered list",
-    action: (s) => ({ text: `1. ${s || "item"}`, offset: 3 }),
-  },
-  {
-    label: "•",
-    title: "Unordered list",
-    action: (s) => ({ text: `- ${s || "item"}`, offset: 2 }),
+    label: '1.',
+    title: 'Ordered list',
+    action: (s) => ({ text: `1. ${s || 'item'}`, offset: 3 }),
   },
   {
-    label: "☑",
-    title: "Task list",
-    action: (s) => ({ text: `- [ ] ${s || "task"}`, offset: 6 }),
-  },
-  "sep",
-  {
-    label: "—",
-    title: "Horizontal rule",
-    action: () => ({ text: "\n---\n", offset: 5 }),
+    label: '•',
+    title: 'Unordered list',
+    action: (s) => ({ text: `- ${s || 'item'}`, offset: 2 }),
   },
   {
-    label: "~~",
-    title: "Strikethrough",
-    action: (s) => ({ text: `~~${s || "text"}~~`, offset: 2 }),
+    label: '☑',
+    title: 'Task list',
+    action: (s) => ({ text: `- [ ] ${s || 'task'}`, offset: 6 }),
+  },
+  'sep',
+  {
+    label: '—',
+    title: 'Horizontal rule',
+    action: () => ({ text: '\n---\n', offset: 5 }),
+  },
+  {
+    label: '~~',
+    title: 'Strikethrough',
+    action: (s) => ({ text: `~~${s || 'text'}~~`, offset: 2 }),
   },
 ];
 
@@ -88,7 +86,7 @@ export default function MarkdownEditor({
   onChange,
   tab,
   onTabChange,
-  placeholder = "Add your note here...",
+  placeholder = 'Add your note here...',
   minHeight = 260,
 }: Props) {
   const ref = useRef<HTMLTextAreaElement>(null);
@@ -104,15 +102,10 @@ export default function MarkdownEditor({
     onChange(next);
     setTimeout(() => {
       el.focus();
-      const pos =
-        start +
-        offset +
-        (selected ? selected.length : text.length - offset * 2);
+      const pos = start + offset + (selected ? selected.length : text.length - offset * 2);
       el.setSelectionRange(
         selected ? start + offset : start + offset,
-        selected
-          ? start + offset + selected.length
-          : start + text.length - offset,
+        selected ? start + offset + selected.length : start + text.length - offset,
       );
     }, 0);
   }
@@ -123,13 +116,13 @@ export default function MarkdownEditor({
       <div className="flex items-center justify-between border-b border-[#30363d] px-3 bg-[#161b22] flex-wrap gap-1">
         {/* Tabs */}
         <div className="flex">
-          {(["write", "preview"] as const).map((t) => (
+          {(['write', 'preview'] as const).map((t) => (
             <button
               key={t}
               type="button"
               onClick={() => onTabChange(t)}
               className={`px-4 py-2 bg-transparent border-0 cursor-pointer text-[13px] font-medium capitalize border-b-2 ${
-                tab === t ? "text-[#e6edf3] border-[#f78166]" : "text-[#8b949e] border-transparent"
+                tab === t ? 'text-[#e6edf3] border-[#f78166]' : 'text-[#8b949e] border-transparent'
               }`}
             >
               {t.charAt(0).toUpperCase() + t.slice(1)}
@@ -138,10 +131,10 @@ export default function MarkdownEditor({
         </div>
 
         {/* Toolbar */}
-        {tab === "write" && (
+        {tab === 'write' && (
           <div className="flex items-center gap-0.5 py-1 flex-wrap">
             {actions.map((a, i) =>
-              a === "sep" ? (
+              a === 'sep' ? (
                 <div key={i} className="w-px h-[18px] bg-[#30363d] mx-1" />
               ) : (
                 <button
@@ -160,7 +153,7 @@ export default function MarkdownEditor({
       </div>
 
       {/* Write pane */}
-      {tab === "write" && (
+      {tab === 'write' && (
         <textarea
           ref={ref}
           value={value}
@@ -172,7 +165,7 @@ export default function MarkdownEditor({
       )}
 
       {/* Preview pane */}
-      {tab === "preview" && (
+      {tab === 'preview' && (
         <div
           style={{ minHeight: `${minHeight}px` }}
           className="px-4 py-3.5 bg-[#0d1117] text-[#e6edf3]"
@@ -190,7 +183,9 @@ export default function MarkdownEditor({
       {/* Footer */}
       <div className="flex items-center gap-5 px-3.5 py-2 border-t border-[#30363d] bg-[#161b22]">
         <span className="text-xs text-[#8b949e] flex items-center gap-1.5">
-          <span className="border border-[#8b949e] rounded px-1 py-px text-[10px] font-bold">M↓</span>
+          <span className="border border-[#8b949e] rounded px-1 py-px text-[10px] font-bold">
+            M↓
+          </span>
           Markdown is supported
         </span>
       </div>

@@ -1,20 +1,20 @@
-"use client";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import PageLoader from "../components/PageLoader";
+'use client';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import PageLoader from '../components/PageLoader';
 
 export default function SignIn() {
-  const [form, setForm] = useState({ email: "", password: "" });
+  const [form, setForm] = useState({ email: '', password: '' });
   const [remember, setRemember] = useState(true);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [checking, setChecking] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
-    fetch("/api/auth/me").then((res) => {
+    fetch('/api/auth/me').then((res) => {
       if (res.ok) {
-        router.replace("/dashboard");
+        router.replace('/dashboard');
       } else {
         setChecking(false);
       }
@@ -23,12 +23,12 @@ export default function SignIn() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const res = await fetch("/api/auth/signin", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    const res = await fetch('/api/auth/signin', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(form),
     });
-    if (res.ok) window.location.href = "/dashboard";
+    if (res.ok) window.location.href = '/dashboard';
     else setError((await res.json()).error);
   }
 
@@ -42,7 +42,10 @@ export default function SignIn() {
           <p className="text-center text-[#444] text-sm mb-10">Sign in to continue</p>
 
           <form onSubmit={handleSubmit}>
-            {[{ field: "email", type: "email" }, { field: "password", type: "password" }].map(({ field, type }) => (
+            {[
+              { field: 'email', type: 'email' },
+              { field: 'password', type: 'password' },
+            ].map(({ field, type }) => (
               <div key={field} className="mb-7">
                 <input
                   placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
@@ -77,12 +80,14 @@ export default function SignIn() {
 
           <div className="flex items-center gap-3 mb-5">
             <div className="flex-1 h-px bg-gray-200" />
-            <span className="text-[11px] tracking-wider text-[#888] font-semibold">ACCESS QUICKLY</span>
+            <span className="text-[11px] tracking-wider text-[#888] font-semibold">
+              ACCESS QUICKLY
+            </span>
             <div className="flex-1 h-px bg-gray-200" />
           </div>
 
           <div className="flex gap-3 justify-center">
-            {["Google", "Linkedin", "SSO"].map((provider) => (
+            {['Google', 'Linkedin', 'SSO'].map((provider) => (
               <button
                 key={provider}
                 className="flex-1 py-2.5 border border-gray-200 rounded bg-white text-[#1a6fd4] font-semibold text-sm cursor-pointer"
@@ -94,7 +99,7 @@ export default function SignIn() {
         </div>
 
         <p className="mt-6 text-sm text-[#555]">
-          No account?{" "}
+          No account?{' '}
           <Link href="/signup" className="text-[#1a6fd4] no-underline">
             Sign up
           </Link>
