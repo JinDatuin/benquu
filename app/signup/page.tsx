@@ -21,211 +21,57 @@ export default function SignUp() {
   }
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        backgroundColor: "#fff",
-        fontFamily: "sans-serif",
-      }}
-    >
-      {/* Card */}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          marginTop: "16px",
-        }}
-      >
-        <div
-          style={{
-            width: "100%",
-            maxWidth: "500px",
-            border: "1px solid #ddd",
-            borderRadius: "8px",
-            padding: "48px 48px 40px",
-            backgroundColor: "#fff",
-          }}
-        >
-          <h1
-            style={{
-              textAlign: "center",
-              fontSize: "40px",
-              fontWeight: 400,
-              margin: "0 0 8px",
-            }}
-          >
-            Sign up
-          </h1>
-          <p
-            style={{
-              textAlign: "center",
-              color: "#444",
-              fontSize: "14px",
-              margin: "0 0 40px",
-            }}
-          >
-            Sign up to continue
-          </p>
+    <div className="min-h-screen bg-white font-sans">
+      <div className="flex flex-col items-center mt-4">
+        <div className="w-full max-w-[500px] border border-gray-200 rounded-lg px-12 pt-12 pb-10 bg-white">
+          <h1 className="text-center text-[40px] font-normal mb-2">Sign up</h1>
+          <p className="text-center text-[#444] text-sm mb-10">Sign up to continue</p>
 
           <form onSubmit={handleSubmit}>
-            {/* Name */}
-            <div style={{ marginBottom: "28px" }}>
-              <input
-                placeholder="Name"
-                value={form.name}
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
-                required
-                style={{
-                  width: "100%",
-                  border: "none",
-                  borderBottom: "1px solid #aaa",
-                  outline: "none",
-                  fontSize: "15px",
-                  padding: "8px 0",
-                  color: "#333",
-                  backgroundColor: "transparent",
-                  boxSizing: "border-box",
-                }}
-              />
-            </div>
+            {["name", "email", "password"].map((field) => (
+              <div key={field} className="mb-7">
+                <input
+                  placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+                  type={field === "email" ? "email" : field === "password" ? "password" : "text"}
+                  value={form[field as keyof typeof form]}
+                  onChange={(e) => setForm({ ...form, [field]: e.target.value })}
+                  required
+                  className="w-full border-0 border-b border-[#aaa] outline-none text-[15px] py-2 text-[#333] bg-transparent"
+                />
+              </div>
+            ))}
 
-            {/* Email */}
-            <div style={{ marginBottom: "28px" }}>
-              <input
-                placeholder="Email"
-                type="email"
-                value={form.email}
-                onChange={(e) => setForm({ ...form, email: e.target.value })}
-                required
-                style={{
-                  width: "100%",
-                  border: "none",
-                  borderBottom: "1px solid #aaa",
-                  outline: "none",
-                  fontSize: "15px",
-                  padding: "8px 0",
-                  color: "#333",
-                  backgroundColor: "transparent",
-                  boxSizing: "border-box",
-                }}
-              />
-            </div>
-
-            {/* Password */}
-            <div style={{ marginBottom: "32px" }}>
-              <input
-                placeholder="Password"
-                type="password"
-                value={form.password}
-                onChange={(e) => setForm({ ...form, password: e.target.value })}
-                required
-                style={{
-                  width: "100%",
-                  border: "none",
-                  borderBottom: "1px solid #aaa",
-                  outline: "none",
-                  fontSize: "15px",
-                  padding: "8px 0",
-                  color: "#333",
-                  backgroundColor: "transparent",
-                  boxSizing: "border-box",
-                }}
-              />
-            </div>
-
-            {error && (
-              <p
-                style={{ color: "red", fontSize: "13px", marginBottom: "12px" }}
-              >
-                {error}
-              </p>
-            )}
+            {error && <p className="text-red-500 text-[13px] mb-3">{error}</p>}
 
             <button
               type="submit"
-              style={{
-                width: "100%",
-                padding: "14px",
-                backgroundColor: "#1a6fd4",
-                color: "#fff",
-                border: "none",
-                borderRadius: "4px",
-                fontSize: "16px",
-                fontWeight: 600,
-                cursor: "pointer",
-                marginBottom: "16px",
-              }}
+              className="w-full py-3.5 bg-[#1a6fd4] text-white border-0 rounded font-semibold text-base cursor-pointer mb-4"
             >
               Sign up
             </button>
 
-            {/* Remember me */}
-            <label
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "8px",
-                fontSize: "14px",
-                cursor: "pointer",
-                marginBottom: "28px",
-              }}
-            >
+            <label className="flex items-center gap-2 text-sm cursor-pointer mb-7">
               <input
                 type="checkbox"
                 checked={remember}
                 onChange={(e) => setRemember(e.target.checked)}
-                style={{
-                  accentColor: "#1a6fd4",
-                  width: "16px",
-                  height: "16px",
-                }}
+                className="accent-[#1a6fd4] w-4 h-4"
               />
               Remember me
             </label>
           </form>
 
-          {/* Divider */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "12px",
-              marginBottom: "20px",
-            }}
-          >
-            <div style={{ flex: 1, height: "1px", backgroundColor: "#ddd" }} />
-            <span
-              style={{
-                fontSize: "11px",
-                letterSpacing: "0.08em",
-                color: "#888",
-                fontWeight: 600,
-              }}
-            >
-              ACCESS QUICKLY
-            </span>
-            <div style={{ flex: 1, height: "1px", backgroundColor: "#ddd" }} />
+          <div className="flex items-center gap-3 mb-5">
+            <div className="flex-1 h-px bg-gray-200" />
+            <span className="text-[11px] tracking-wider text-[#888] font-semibold">ACCESS QUICKLY</span>
+            <div className="flex-1 h-px bg-gray-200" />
           </div>
 
-          {/* Social buttons */}
-          <div
-            style={{ display: "flex", gap: "12px", justifyContent: "center" }}
-          >
+          <div className="flex gap-3 justify-center">
             {["Google", "Linkedin", "SSO"].map((provider) => (
               <button
                 key={provider}
-                style={{
-                  flex: 1,
-                  padding: "10px",
-                  border: "1px solid #ddd",
-                  borderRadius: "4px",
-                  backgroundColor: "#fff",
-                  color: "#1a6fd4",
-                  fontWeight: 600,
-                  fontSize: "14px",
-                  cursor: "pointer",
-                }}
+                className="flex-1 py-2.5 border border-gray-200 rounded bg-white text-[#1a6fd4] font-semibold text-sm cursor-pointer"
               >
                 {provider}
               </button>
@@ -233,13 +79,9 @@ export default function SignUp() {
           </div>
         </div>
 
-        {/* Footer link */}
-        <p style={{ marginTop: "24px", fontSize: "14px", color: "#555" }}>
+        <p className="mt-6 text-sm text-[#555]">
           Already have an account?{" "}
-          <Link
-            href="/signin"
-            style={{ color: "#1a6fd4", textDecoration: "none" }}
-          >
+          <Link href="/signin" className="text-[#1a6fd4] no-underline">
             Sign in
           </Link>
         </p>

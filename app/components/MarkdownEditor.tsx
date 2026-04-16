@@ -118,47 +118,19 @@ export default function MarkdownEditor({
   }
 
   return (
-    <div
-      style={{
-        border: "1px solid #30363d",
-        borderRadius: "6px",
-        overflow: "hidden",
-        backgroundColor: "#0d1117",
-        fontFamily: "sans-serif",
-      }}
-    >
+    <div className="border border-[#30363d] rounded-md overflow-hidden bg-[#0d1117] font-sans">
       {/* Tab bar + toolbar */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          borderBottom: "1px solid #30363d",
-          padding: "0 12px",
-          backgroundColor: "#161b22",
-          flexWrap: "wrap",
-          gap: "4px",
-        }}
-      >
+      <div className="flex items-center justify-between border-b border-[#30363d] px-3 bg-[#161b22] flex-wrap gap-1">
         {/* Tabs */}
-        <div style={{ display: "flex" }}>
+        <div className="flex">
           {(["write", "preview"] as const).map((t) => (
             <button
               key={t}
               type="button"
               onClick={() => onTabChange(t)}
-              style={{
-                padding: "8px 16px",
-                background: "none",
-                border: "none",
-                cursor: "pointer",
-                fontSize: "13px",
-                fontWeight: 500,
-                color: tab === t ? "#e6edf3" : "#8b949e",
-                borderBottom:
-                  tab === t ? "2px solid #f78166" : "2px solid transparent",
-                textTransform: "capitalize",
-              }}
+              className={`px-4 py-2 bg-transparent border-0 cursor-pointer text-[13px] font-medium capitalize border-b-2 ${
+                tab === t ? "text-[#e6edf3] border-[#f78166]" : "text-[#8b949e] border-transparent"
+              }`}
             >
               {t.charAt(0).toUpperCase() + t.slice(1)}
             </button>
@@ -167,54 +139,17 @@ export default function MarkdownEditor({
 
         {/* Toolbar */}
         {tab === "write" && (
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "2px",
-              padding: "4px 0",
-              flexWrap: "wrap",
-            }}
-          >
+          <div className="flex items-center gap-0.5 py-1 flex-wrap">
             {actions.map((a, i) =>
               a === "sep" ? (
-                <div
-                  key={i}
-                  style={{
-                    width: "1px",
-                    height: "18px",
-                    backgroundColor: "#30363d",
-                    margin: "0 4px",
-                  }}
-                />
+                <div key={i} className="w-px h-[18px] bg-[#30363d] mx-1" />
               ) : (
                 <button
                   key={i}
                   type="button"
                   title={a.title}
                   onClick={() => applyAction(a)}
-                  style={{
-                    width: "28px",
-                    height: "28px",
-                    background: "none",
-                    border: "none",
-                    cursor: "pointer",
-                    color: "#8b949e",
-                    fontSize: "13px",
-                    fontWeight: 700,
-                    borderRadius: "4px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = "#21262d";
-                    e.currentTarget.style.color = "#e6edf3";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = "transparent";
-                    e.currentTarget.style.color = "#8b949e";
-                  }}
+                  className="w-7 h-7 bg-transparent border-0 cursor-pointer text-[#8b949e] text-[13px] font-bold rounded flex items-center justify-center hover:bg-[#21262d] hover:text-[#e6edf3]"
                 >
                   {a.label}
                 </button>
@@ -231,76 +166,31 @@ export default function MarkdownEditor({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
-          style={{
-            width: "100%",
-            minHeight: `${minHeight}px`,
-            padding: "14px 16px",
-            backgroundColor: "#0d1117",
-            color: "#e6edf3",
-            border: "none",
-            outline: "none",
-            fontSize: "14px",
-            fontFamily: "monospace",
-            lineHeight: "1.7",
-            resize: "vertical",
-            boxSizing: "border-box",
-          }}
+          style={{ minHeight: `${minHeight}px` }}
+          className="w-full px-4 py-3.5 bg-[#0d1117] text-[#e6edf3] border-0 outline-none text-sm font-mono leading-[1.7] resize-y"
         />
       )}
 
       {/* Preview pane */}
       {tab === "preview" && (
         <div
-          style={{
-            minHeight: `${minHeight}px`,
-            padding: "14px 16px",
-            backgroundColor: "#0d1117",
-            color: "#e6edf3",
-          }}
+          style={{ minHeight: `${minHeight}px` }}
+          className="px-4 py-3.5 bg-[#0d1117] text-[#e6edf3]"
         >
           {value ? (
             <div className="md-preview">
               <ReactMarkdown remarkPlugins={[remarkGfm]}>{value}</ReactMarkdown>
             </div>
           ) : (
-            <p style={{ color: "#484f58", fontSize: "14px" }}>
-              Nothing to preview.
-            </p>
+            <p className="text-[#484f58] text-sm">Nothing to preview.</p>
           )}
         </div>
       )}
 
       {/* Footer */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "20px",
-          padding: "8px 14px",
-          borderTop: "1px solid #30363d",
-          backgroundColor: "#161b22",
-        }}
-      >
-        <span
-          style={{
-            fontSize: "12px",
-            color: "#8b949e",
-            display: "flex",
-            alignItems: "center",
-            gap: "5px",
-          }}
-        >
-          <span
-            style={{
-              border: "1px solid #8b949e",
-              borderRadius: "3px",
-              padding: "1px 4px",
-              fontSize: "10px",
-              fontWeight: 700,
-            }}
-          >
-            M↓
-          </span>
+      <div className="flex items-center gap-5 px-3.5 py-2 border-t border-[#30363d] bg-[#161b22]">
+        <span className="text-xs text-[#8b949e] flex items-center gap-1.5">
+          <span className="border border-[#8b949e] rounded px-1 py-px text-[10px] font-bold">M↓</span>
           Markdown is supported
         </span>
       </div>

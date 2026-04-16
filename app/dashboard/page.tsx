@@ -53,119 +53,47 @@ export default function Dashboard() {
   }
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        fontFamily: "sans-serif",
-        backgroundColor: "#fff",
-      }}
-    >
+    <div className="min-h-screen flex flex-col font-sans bg-white">
       <Navbar />
 
-      <main
-        style={{
-          flex: 1,
-          padding: "40px 24px",
-          maxWidth: "800px",
-          width: "100%",
-          margin: "0 auto",
-          boxSizing: "border-box",
-        }}
-      >
+      <main className="flex-1 px-6 py-10 w-full max-w-[800px] mx-auto">
         {/* LIST VIEW */}
         {view === "list" && (
           <>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginBottom: "24px",
-              }}
-            >
-              <h2 style={{ fontSize: "24px", fontWeight: 500, margin: 0 }}>
-                Notes
-              </h2>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-medium m-0">Notes</h2>
               <button
                 onClick={() => {
                   setForm({ title: "", content: "" });
                   setEditorTab("write");
                   setView("create");
                 }}
-                style={{
-                  padding: "9px 20px",
-                  backgroundColor: "#1a6fd4",
-                  color: "#fff",
-                  border: "none",
-                  borderRadius: "4px",
-                  fontSize: "14px",
-                  fontWeight: 600,
-                  cursor: "pointer",
-                }}
+                className="px-5 py-2 bg-[#1a6fd4] text-white border-0 rounded text-sm font-semibold cursor-pointer"
               >
                 + New Note
               </button>
             </div>
 
             {notes.length === 0 && (
-              <p style={{ color: "#aaa", fontSize: "14px" }}>
-                No notes yet. Create your first one!
-              </p>
+              <p className="text-[#aaa] text-sm">No notes yet. Create your first one!</p>
             )}
 
-            <div
-              style={{ display: "flex", flexDirection: "column", gap: "10px" }}
-            >
+            <div className="flex flex-col gap-2.5">
               {notes.map((note) => (
                 <div
                   key={note.id}
-                  onClick={() => {
-                    setSelected(note);
-                    setView("open");
-                  }}
-                  style={{
-                    border: "1px solid #e5e5e5",
-                    borderRadius: "6px",
-                    padding: "16px 20px",
-                    cursor: "pointer",
-                  }}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.borderColor = "#1a6fd4")
-                  }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.borderColor = "#e5e5e5")
-                  }
+                  onClick={() => { setSelected(note); setView("open"); }}
+                  className="border border-[#e5e5e5] rounded-md px-5 py-4 cursor-pointer hover:border-[#1a6fd4] transition-colors"
                 >
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                    }}
-                  >
-                    <strong style={{ fontSize: "15px" }}>{note.title}</strong>
-                    <small style={{ color: "#aaa", fontSize: "12px" }}>
-                      {new Date(
-                        note.created_at.seconds * 1000,
-                      ).toLocaleDateString()}
+                  <div className="flex justify-between items-center">
+                    <strong className="text-[15px]">{note.title}</strong>
+                    <small className="text-[#aaa] text-xs">
+                      {new Date(note.created_at.seconds * 1000).toLocaleDateString()}
                     </small>
                   </div>
                   {note.content && (
-                    <p
-                      style={{
-                        margin: "6px 0 0",
-                        fontSize: "13px",
-                        color: "#888",
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                      }}
-                    >
-                      {note.content
-                        .replace(/[#*`_>~\-\[\]]/g, "")
-                        .slice(0, 120)}
+                    <p className="mt-1.5 text-[13px] text-[#888] whitespace-nowrap overflow-hidden text-ellipsis">
+                      {note.content.replace(/[#*`_>~\-\[\]]/g, "").slice(0, 120)}
                     </p>
                   )}
                 </div>
@@ -177,53 +105,24 @@ export default function Dashboard() {
         {/* CREATE VIEW */}
         {view === "create" && (
           <>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "12px",
-                marginBottom: "20px",
-              }}
-            >
+            <div className="flex items-center gap-3 mb-5">
               <button
                 onClick={() => setView("list")}
-                style={{
-                  background: "none",
-                  border: "none",
-                  color: "#1a6fd4",
-                  cursor: "pointer",
-                  fontSize: "14px",
-                  padding: 0,
-                }}
+                className="bg-transparent border-0 text-[#1a6fd4] cursor-pointer text-sm p-0"
               >
                 ← Back
               </button>
-              <h2 style={{ fontSize: "22px", fontWeight: 500, margin: 0 }}>
-                New Note
-              </h2>
+              <h2 className="text-[22px] font-medium m-0">New Note</h2>
             </div>
 
-            <form
-              onSubmit={addNote}
-              style={{ display: "flex", flexDirection: "column", gap: "16px" }}
-            >
+            <form onSubmit={addNote} className="flex flex-col gap-4">
               <input
                 placeholder="Title"
                 value={form.title}
                 onChange={(e) => setForm({ ...form, title: e.target.value })}
                 required
                 autoFocus
-                style={{
-                  border: "none",
-                  borderBottom: "1px solid #e5e5e5",
-                  outline: "none",
-                  fontSize: "22px",
-                  fontWeight: 600,
-                  padding: "8px 0",
-                  backgroundColor: "transparent",
-                  width: "100%",
-                  boxSizing: "border-box",
-                }}
+                className="border-0 border-b border-[#e5e5e5] outline-none text-[22px] font-semibold py-2 bg-transparent w-full"
               />
 
               <MarkdownEditor
@@ -234,34 +133,17 @@ export default function Dashboard() {
                 minHeight={300}
               />
 
-              <div style={{ display: "flex", gap: "10px" }}>
+              <div className="flex gap-2.5">
                 <button
                   type="submit"
-                  style={{
-                    padding: "10px 24px",
-                    backgroundColor: "#1a6fd4",
-                    color: "#fff",
-                    border: "none",
-                    borderRadius: "4px",
-                    fontSize: "14px",
-                    fontWeight: 600,
-                    cursor: "pointer",
-                  }}
+                  className="px-6 py-2.5 bg-[#1a6fd4] text-white border-0 rounded text-sm font-semibold cursor-pointer"
                 >
                   Save Note
                 </button>
                 <button
                   type="button"
                   onClick={() => setView("list")}
-                  style={{
-                    padding: "10px 20px",
-                    backgroundColor: "#fff",
-                    color: "#555",
-                    border: "1px solid #ddd",
-                    borderRadius: "4px",
-                    fontSize: "14px",
-                    cursor: "pointer",
-                  }}
+                  className="px-5 py-2.5 bg-white text-[#555] border border-[#ddd] rounded text-sm cursor-pointer"
                 >
                   Cancel
                 </button>
@@ -273,67 +155,27 @@ export default function Dashboard() {
         {/* OPEN / READ VIEW */}
         {view === "open" && selected && (
           <>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                marginBottom: "24px",
-              }}
-            >
+            <div className="flex items-center justify-between mb-6">
               <button
                 onClick={() => setView("list")}
-                style={{
-                  background: "none",
-                  border: "none",
-                  color: "#1a6fd4",
-                  cursor: "pointer",
-                  fontSize: "14px",
-                  padding: 0,
-                }}
+                className="bg-transparent border-0 text-[#1a6fd4] cursor-pointer text-sm p-0"
               >
                 ← Back
               </button>
               <button
                 onClick={() => handleDelete(selected.id)}
-                style={{
-                  background: "none",
-                  border: "none",
-                  color: "#e55",
-                  cursor: "pointer",
-                  fontSize: "13px",
-                  padding: 0,
-                }}
+                className="bg-transparent border-0 text-[#e55] cursor-pointer text-[13px] p-0"
               >
                 Delete
               </button>
             </div>
 
-            <h1
-              style={{ fontSize: "28px", fontWeight: 700, margin: "0 0 6px" }}
-            >
-              {selected.title}
-            </h1>
-            <small
-              style={{
-                color: "#aaa",
-                fontSize: "12px",
-                display: "block",
-                marginBottom: "28px",
-              }}
-            >
+            <h1 className="text-[28px] font-bold mb-1.5">{selected.title}</h1>
+            <small className="text-[#aaa] text-xs block mb-7">
               {new Date(selected.created_at.seconds * 1000).toLocaleString()}
             </small>
 
-            <div
-              style={{
-                border: "1px solid #30363d",
-                borderRadius: "6px",
-                padding: "24px",
-                backgroundColor: "#0d1117",
-                color: "#e6edf3",
-              }}
-            >
+            <div className="border border-[#30363d] rounded-md p-6 bg-[#0d1117] text-[#e6edf3]">
               <div className="md-preview">
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>
                   {selected.content}
