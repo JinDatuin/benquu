@@ -1,11 +1,13 @@
-import { SignJWT, jwtVerify } from 'jose';
+import { SignJWT, jwtVerify } from "jose";
 
-const SECRET = new TextEncoder().encode(process.env.JWT_SECRET || 'student-toolkit-secret-key');
+const SECRET = new TextEncoder().encode(
+  process.env.JWT_SECRET || "student-toolkit-secret-key",
+);
 
 export async function signToken(payload: { id: string; email: string }) {
   return new SignJWT(payload)
-    .setProtectedHeader({ alg: 'HS256' })
-    .setExpirationTime('7d')
+    .setProtectedHeader({ alg: "HS256" })
+    .setExpirationTime("7d")
     .sign(SECRET);
 }
 
