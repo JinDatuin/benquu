@@ -76,103 +76,46 @@ export default function Navbar() {
 
   return (
     <>
-      <header style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        padding: "0 32px",
-        borderBottom: "1px solid var(--nav-border)",
-        height: "56px",
-        backgroundColor: "var(--nav-bg)",
-        position: "sticky",
-        top: 0,
-        zIndex: 100,
-      }}>
-        <Link href="/dashboard" style={{
-          textDecoration: "none",
-          color: "inherit",
-          borderBottom: "2px solid #000",
-          paddingBottom: "2px",
-        }}>
-          <span style={{ fontSize: "14px", fontWeight: 700, letterSpacing: "0.05em" }}>
-            LOGO <span style={{ textDecoration: "underline" }}>COMPANY</span>
+      <header className="flex items-center justify-between px-8 border-b border-[var(--nav-border)] h-14 bg-[var(--nav-bg)] sticky top-0 z-[100]">
+        <Link href="/dashboard" className="no-underline text-inherit border-b-2 border-black pb-0.5">
+          <span className="text-sm font-bold tracking-[0.05em]">
+            LOGO <span className="underline">COMPANY</span>
           </span>
         </Link>
 
-        <nav style={{ display: "flex", gap: "4px" }} className="desktop-nav">
+        <nav className="desktop-nav flex gap-1">
           {navItems.map((item) => (
-            <Link key={item.href} href={item.href} style={{
-              padding: "8px 20px",
-              textDecoration: "none",
-              borderBottom: pathname === item.href ? "2px solid #1a6fd4" : "2px solid transparent",
-              color: pathname === item.href ? "#1a6fd4" : "var(--nav-color)",
-              fontWeight: pathname === item.href ? 600 : 400,
-              fontSize: "14px",
-              display: "inline-block",
-            }}>
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`px-5 py-2 no-underline text-sm inline-block border-b-2 ${
+                pathname === item.href
+                  ? "border-[#1a6fd4] text-[#1a6fd4] font-semibold"
+                  : "border-transparent text-[var(--nav-color)] font-normal"
+              }`}
+            >
               {item.label}
             </Link>
           ))}
         </nav>
 
         {/* Profile Avatar + Dropdown */}
-        <div ref={dropdownRef} style={{ position: "relative" }} className="desktop-nav">
+        <div ref={dropdownRef} className="desktop-nav relative">
           <button
             onClick={() => setOpen((v) => !v)}
-            style={{
-              width: "36px",
-              height: "36px",
-              borderRadius: "6px",
-              border: "2px solid #fff",
-              backgroundColor: "#1a1a1a",
-              color: "#fff",
-              fontSize: "13px",
-              fontWeight: 700,
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              letterSpacing: "0.03em",
-            }}
+            className="w-9 h-9 rounded-md border-2 border-white bg-[#1a1a1a] text-white text-[13px] font-bold cursor-pointer flex items-center justify-center tracking-[0.03em]"
           >
             {initials}
           </button>
 
           {open && (
-            <div style={{
-              position: "absolute",
-              top: "calc(100% + 10px)",
-              right: 0,
-              width: "220px",
-              backgroundColor: "var(--dropdown-bg)",
-              border: "1px solid var(--dropdown-border)",
-              borderRadius: "10px",
-              padding: "12px 0 8px",
-              boxShadow: "0 8px 24px rgba(0,0,0,0.3)",
-              zIndex: 200,
-            }}>
-              {/* Name */}
-              <div style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "10px",
-                padding: "4px 16px 12px",
-                borderBottom: "1px solid var(--dropdown-border)",
-              }}>
+            <div className="absolute top-[calc(100%+10px)] right-0 w-[220px] bg-[var(--dropdown-bg)] border border-[var(--dropdown-border)] rounded-[10px] pt-3 pb-2 shadow-[0_8px_24px_rgba(0,0,0,0.3)] z-[200]">
+              <div className="flex items-center gap-2.5 px-4 pb-3 border-b border-[var(--dropdown-border)]">
                 <User size={18} color="var(--dropdown-color)" strokeWidth={1.8} />
-                <span style={{ fontSize: "14px", fontWeight: 600, color: "var(--dropdown-color)" }}>
-                  {displayName}
-                </span>
+                <span className="text-sm font-semibold text-[var(--dropdown-color)]">{displayName}</span>
               </div>
 
-              {/* Theme switcher */}
-              <div style={{
-                display: "flex",
-                justifyContent: "center",
-                gap: "6px",
-                padding: "12px 16px",
-                borderBottom: "1px solid var(--dropdown-border)",
-              }}>
+              <div className="flex justify-center gap-1.5 px-4 py-3 border-b border-[var(--dropdown-border)]">
                 {([
                   { value: "light", Icon: Sun },
                   { value: "dark", Icon: Moon },
@@ -182,42 +125,18 @@ export default function Navbar() {
                     key={value}
                     onClick={() => setTheme(value)}
                     title={value.charAt(0).toUpperCase() + value.slice(1)}
-                    style={{
-                      width: "40px",
-                      height: "36px",
-                      borderRadius: "8px",
-                      border: "none",
-                      backgroundColor: theme === value ? "#3a3a3a" : "transparent",
-                      color: theme === value ? "#fff" : "#888",
-                      cursor: "pointer",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
+                    className={`w-10 h-9 rounded-lg border-0 cursor-pointer flex items-center justify-center ${
+                      theme === value ? "bg-[#3a3a3a] text-white" : "bg-transparent text-[#888]"
+                    }`}
                   >
                     <Icon size={16} strokeWidth={1.8} />
                   </button>
                 ))}
               </div>
 
-              {/* Sign out */}
               <button
                 onClick={signOut}
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
-                  padding: "10px 16px",
-                  border: "none",
-                  backgroundColor: "transparent",
-                  color: "var(--dropdown-color)",
-                  fontSize: "14px",
-                  cursor: "pointer",
-                  textAlign: "left",
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "var(--dropdown-hover)")}
-                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
+                className="w-full flex items-center gap-2.5 px-4 py-2.5 border-0 bg-transparent text-[var(--dropdown-color)] text-sm cursor-pointer text-left hover:bg-[var(--dropdown-hover)]"
               >
                 <LogOut size={16} strokeWidth={1.8} />
                 Sign out
@@ -232,19 +151,13 @@ export default function Navbar() {
         {navItems.map(({ href, label, icon: Icon }) => {
           const active = pathname === href;
           return (
-            <Link key={href} href={href} style={{
-              flex: 1,
-              textAlign: "center",
-              textDecoration: "none",
-              color: active ? "#1a6fd4" : "#888",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: "3px",
-              fontSize: "11px",
-              fontWeight: active ? 600 : 400,
-              padding: "6px 4px",
-            }}>
+            <Link
+              key={href}
+              href={href}
+              className={`flex-1 text-center no-underline flex flex-col items-center gap-[3px] text-[11px] px-1 py-1.5 ${
+                active ? "text-[#1a6fd4] font-semibold" : "text-[#888] font-normal"
+              }`}
+            >
               <Icon size={22} strokeWidth={active ? 2.2 : 1.8} />
               {label}
             </Link>
@@ -252,19 +165,7 @@ export default function Navbar() {
         })}
         <button
           onClick={signOut}
-          style={{
-            flex: 1,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: "3px",
-            border: "none",
-            backgroundColor: "transparent",
-            color: "#888",
-            fontSize: "11px",
-            padding: "6px 4px",
-            cursor: "pointer",
-          }}
+          className="flex-1 flex flex-col items-center gap-[3px] border-0 bg-transparent text-[#888] text-[11px] px-1 py-1.5 cursor-pointer"
         >
           <LogOut size={22} strokeWidth={1.8} />
           Sign out
