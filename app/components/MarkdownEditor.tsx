@@ -102,7 +102,6 @@ export default function MarkdownEditor({
     onChange(next);
     setTimeout(() => {
       el.focus();
-      const pos = start + offset + (selected ? selected.length : text.length - offset * 2);
       el.setSelectionRange(
         selected ? start + offset : start + offset,
         selected ? start + offset + selected.length : start + text.length - offset,
@@ -111,9 +110,9 @@ export default function MarkdownEditor({
   }
 
   return (
-    <div className="border border-[#30363d] rounded-md overflow-hidden bg-[#0d1117] font-sans">
+    <div className="border border-[#e5e5e5] dark:border-[#30363d] rounded-md overflow-hidden bg-white dark:bg-[#0d1117] font-sans">
       {/* Tab bar + toolbar */}
-      <div className="flex items-center justify-between border-b border-[#30363d] px-3 bg-[#161b22] flex-wrap gap-1">
+      <div className="flex items-center justify-between border-b border-[#e5e5e5] dark:border-[#30363d] px-3 bg-[#f6f8fa] dark:bg-[#161b22] flex-wrap gap-1">
         {/* Tabs */}
         <div className="flex">
           {(['write', 'preview'] as const).map((t) => (
@@ -122,7 +121,9 @@ export default function MarkdownEditor({
               type="button"
               onClick={() => onTabChange(t)}
               className={`px-4 py-2 bg-transparent border-0 cursor-pointer text-[13px] font-medium capitalize border-b-2 ${
-                tab === t ? 'text-[#e6edf3] border-[#f78166]' : 'text-[#8b949e] border-transparent'
+                tab === t
+                  ? 'text-[#171717] dark:text-[#e6edf3] border-[#1a6fd4] dark:border-[#f78166]'
+                  : 'text-[#888] dark:text-[#8b949e] border-transparent'
               }`}
             >
               {t.charAt(0).toUpperCase() + t.slice(1)}
@@ -135,14 +136,14 @@ export default function MarkdownEditor({
           <div className="flex items-center gap-0.5 py-1 flex-wrap">
             {actions.map((a, i) =>
               a === 'sep' ? (
-                <div key={i} className="w-px h-[18px] bg-[#30363d] mx-1" />
+                <div key={i} className="w-px h-[18px] bg-[#e5e5e5] dark:bg-[#30363d] mx-1" />
               ) : (
                 <button
                   key={i}
                   type="button"
                   title={a.title}
                   onClick={() => applyAction(a)}
-                  className="w-7 h-7 bg-transparent border-0 cursor-pointer text-[#8b949e] text-[13px] font-bold rounded flex items-center justify-center hover:bg-[#21262d] hover:text-[#e6edf3]"
+                  className="w-7 h-7 bg-transparent border-0 cursor-pointer text-[#555] dark:text-[#8b949e] text-[13px] font-bold rounded flex items-center justify-center hover:bg-[#e5e5e5] dark:hover:bg-[#21262d] hover:text-[#171717] dark:hover:text-[#e6edf3]"
                 >
                   {a.label}
                 </button>
@@ -160,7 +161,7 @@ export default function MarkdownEditor({
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
           style={{ minHeight: `${minHeight}px` }}
-          className="w-full px-4 py-3.5 bg-[#0d1117] text-[#e6edf3] border-0 outline-none text-sm font-mono leading-[1.7] resize-y"
+          className="w-full px-4 py-3.5 bg-white dark:bg-[#0d1117] text-[#171717] dark:text-[#e6edf3] border-0 outline-none text-sm font-mono leading-[1.7] resize-y placeholder:text-[#aaa] dark:placeholder:text-[#484f58]"
         />
       )}
 
@@ -168,22 +169,22 @@ export default function MarkdownEditor({
       {tab === 'preview' && (
         <div
           style={{ minHeight: `${minHeight}px` }}
-          className="px-4 py-3.5 bg-[#0d1117] text-[#e6edf3]"
+          className="px-4 py-3.5 bg-white dark:bg-[#0d1117] text-[#171717] dark:text-[#e6edf3]"
         >
           {value ? (
             <div className="md-preview">
               <ReactMarkdown remarkPlugins={[remarkGfm]}>{value}</ReactMarkdown>
             </div>
           ) : (
-            <p className="text-[#484f58] text-sm">Nothing to preview.</p>
+            <p className="text-[#aaa] dark:text-[#484f58] text-sm">Nothing to preview.</p>
           )}
         </div>
       )}
 
       {/* Footer */}
-      <div className="flex items-center gap-5 px-3.5 py-2 border-t border-[#30363d] bg-[#161b22]">
-        <span className="text-xs text-[#8b949e] flex items-center gap-1.5">
-          <span className="border border-[#8b949e] rounded px-1 py-px text-[10px] font-bold">
+      <div className="flex items-center gap-5 px-3.5 py-2 border-t border-[#e5e5e5] dark:border-[#30363d] bg-[#f6f8fa] dark:bg-[#161b22]">
+        <span className="text-xs text-[#888] dark:text-[#8b949e] flex items-center gap-1.5">
+          <span className="border border-[#888] dark:border-[#8b949e] rounded px-1 py-px text-[10px] font-bold">
             M↓
           </span>
           Markdown is supported
@@ -191,26 +192,39 @@ export default function MarkdownEditor({
       </div>
 
       <style>{`
-        .md-preview h1 { font-size: 1.8em; font-weight: 700; border-bottom: 1px solid #30363d; padding-bottom: 0.3em; margin: 0.6em 0 0.4em; }
-        .md-preview h2 { font-size: 1.4em; font-weight: 600; border-bottom: 1px solid #30363d; padding-bottom: 0.2em; margin: 0.8em 0 0.4em; }
+        .md-preview h1 { font-size: 1.8em; font-weight: 700; border-bottom: 1px solid #e5e5e5; padding-bottom: 0.3em; margin: 0.6em 0 0.4em; }
+        .md-preview h2 { font-size: 1.4em; font-weight: 600; border-bottom: 1px solid #e5e5e5; padding-bottom: 0.2em; margin: 0.8em 0 0.4em; }
         .md-preview h3 { font-size: 1.15em; font-weight: 600; margin: 0.8em 0 0.3em; }
         .md-preview p { margin: 0.5em 0; }
         .md-preview ul, .md-preview ol { padding-left: 1.6em; margin: 0.5em 0; }
         .md-preview li { margin: 0.2em 0; }
-        .md-preview blockquote { border-left: 3px solid #3d444d; margin: 0.8em 0; padding: 0.4em 1em; color: #8b949e; }
-        .md-preview code { background: #21262d; border-radius: 3px; padding: 0.15em 0.4em; font-size: 0.88em; font-family: monospace; color: #f78166; }
-        .md-preview pre { background: #161b22; border: 1px solid #30363d; border-radius: 6px; padding: 16px; overflow-x: auto; margin: 0.8em 0; }
-        .md-preview pre code { background: none; color: #e6edf3; padding: 0; }
+        .md-preview blockquote { border-left: 3px solid #ddd; margin: 0.8em 0; padding: 0.4em 1em; color: #666; }
+        .md-preview code { background: #f3f4f6; border-radius: 3px; padding: 0.15em 0.4em; font-size: 0.88em; font-family: monospace; color: #d63031; }
+        .md-preview pre { background: #f6f8fa; border: 1px solid #e5e5e5; border-radius: 6px; padding: 16px; overflow-x: auto; margin: 0.8em 0; }
+        .md-preview pre code { background: none; color: #171717; padding: 0; }
         .md-preview table { border-collapse: collapse; width: 100%; margin: 0.8em 0; }
-        .md-preview th { background: #161b22; font-weight: 600; }
-        .md-preview th, .md-preview td { border: 1px solid #30363d; padding: 8px 12px; }
-        .md-preview tr:nth-child(even) td { background: #161b22; }
-        .md-preview a { color: #58a6ff; }
-        .md-preview hr { border: none; border-top: 1px solid #30363d; margin: 1.2em 0; }
-        .md-preview del { color: #8b949e; }
+        .md-preview th { background: #f6f8fa; font-weight: 600; }
+        .md-preview th, .md-preview td { border: 1px solid #e5e5e5; padding: 8px 12px; }
+        .md-preview tr:nth-child(even) td { background: #f6f8fa; }
+        .md-preview a { color: #1a6fd4; }
+        .md-preview hr { border: none; border-top: 1px solid #e5e5e5; margin: 1.2em 0; }
+        .md-preview del { color: #888; }
         .md-preview strong { font-weight: 700; }
         .md-preview em { font-style: italic; }
         .md-preview input[type=checkbox] { margin-right: 6px; }
+
+        [data-theme=dark] .md-preview h1 { border-bottom-color: #30363d; }
+        [data-theme=dark] .md-preview h2 { border-bottom-color: #30363d; }
+        [data-theme=dark] .md-preview blockquote { border-left-color: #3d444d; color: #8b949e; }
+        [data-theme=dark] .md-preview code { background: #21262d; color: #f78166; }
+        [data-theme=dark] .md-preview pre { background: #161b22; border-color: #30363d; }
+        [data-theme=dark] .md-preview pre code { color: #e6edf3; }
+        [data-theme=dark] .md-preview th { background: #161b22; }
+        [data-theme=dark] .md-preview th, [data-theme=dark] .md-preview td { border-color: #30363d; }
+        [data-theme=dark] .md-preview tr:nth-child(even) td { background: #161b22; }
+        [data-theme=dark] .md-preview a { color: #58a6ff; }
+        [data-theme=dark] .md-preview hr { border-top-color: #30363d; }
+        [data-theme=dark] .md-preview del { color: #8b949e; }
       `}</style>
     </div>
   );

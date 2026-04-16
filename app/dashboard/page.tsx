@@ -53,7 +53,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col font-sans bg-white">
+    <div className="min-h-screen flex flex-col font-sans bg-white dark:bg-[#0a0a0a] text-[#171717] dark:text-[#ededed]">
       <Navbar />
 
       <main className="flex-1 px-6 py-10 w-full max-w-[800px] mx-auto">
@@ -75,7 +75,9 @@ export default function Dashboard() {
             </div>
 
             {notes.length === 0 && (
-              <p className="text-[#aaa] text-sm">No notes yet. Create your first one!</p>
+              <p className="text-[#aaa] dark:text-[#555] text-sm">
+                No notes yet. Create your first one!
+              </p>
             )}
 
             <div className="flex flex-col gap-2.5">
@@ -86,16 +88,16 @@ export default function Dashboard() {
                     setSelected(note);
                     setView('open');
                   }}
-                  className="border border-[#e5e5e5] rounded-md px-5 py-4 cursor-pointer hover:border-[#1a6fd4] transition-colors"
+                  className="border border-[#e5e5e5] dark:border-[#2a2a2a] rounded-md px-5 py-4 cursor-pointer hover:border-[#1a6fd4] dark:hover:border-[#1a6fd4] transition-colors"
                 >
                   <div className="flex justify-between items-center">
                     <strong className="text-[15px]">{note.title}</strong>
-                    <small className="text-[#aaa] text-xs">
+                    <small className="text-[#aaa] dark:text-[#555] text-xs">
                       {new Date(note.created_at.seconds * 1000).toLocaleDateString()}
                     </small>
                   </div>
                   {note.content && (
-                    <p className="mt-1.5 text-[13px] text-[#888] whitespace-nowrap overflow-hidden text-ellipsis">
+                    <p className="mt-1.5 text-[13px] text-[#888] dark:text-[#666] whitespace-nowrap overflow-hidden text-ellipsis">
                       {note.content.replace(/[#*`_>~\-\[\]]/g, '').slice(0, 120)}
                     </p>
                   )}
@@ -125,7 +127,7 @@ export default function Dashboard() {
                 onChange={(e) => setForm({ ...form, title: e.target.value })}
                 required
                 autoFocus
-                className="border-0 border-b border-[#e5e5e5] outline-none text-[22px] font-semibold py-2 bg-transparent w-full"
+                className="border-0 border-b border-[#e5e5e5] dark:border-[#2a2a2a] outline-none text-[22px] font-semibold py-2 bg-transparent w-full text-[#171717] dark:text-[#ededed] placeholder:text-[#aaa] dark:placeholder:text-[#555]"
               />
 
               <MarkdownEditor
@@ -146,7 +148,7 @@ export default function Dashboard() {
                 <button
                   type="button"
                   onClick={() => setView('list')}
-                  className="px-5 py-2.5 bg-white text-[#555] border border-[#ddd] rounded text-sm cursor-pointer"
+                  className="px-5 py-2.5 bg-white dark:bg-[#111] text-[#555] dark:text-[#aaa] border border-[#ddd] dark:border-[#2a2a2a] rounded text-sm cursor-pointer"
                 >
                   Cancel
                 </button>
@@ -174,37 +176,50 @@ export default function Dashboard() {
             </div>
 
             <h1 className="text-[28px] font-bold mb-1.5">{selected.title}</h1>
-            <small className="text-[#aaa] text-xs block mb-7">
+            <small className="text-[#aaa] dark:text-[#555] text-xs block mb-7">
               {new Date(selected.created_at.seconds * 1000).toLocaleString()}
             </small>
 
-            <div className="border border-[#30363d] rounded-md p-6 bg-[#0d1117] text-[#e6edf3]">
+            <div className="border border-[#e5e5e5] dark:border-[#30363d] rounded-md p-6 bg-white dark:bg-[#0d1117] text-[#171717] dark:text-[#e6edf3]">
               <div className="md-preview">
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>{selected.content}</ReactMarkdown>
               </div>
             </div>
 
             <style>{`
-              .md-preview h1 { font-size: 1.8em; font-weight: 700; border-bottom: 1px solid #30363d; padding-bottom: 0.3em; margin: 0.6em 0 0.4em; }
-              .md-preview h2 { font-size: 1.4em; font-weight: 600; border-bottom: 1px solid #30363d; padding-bottom: 0.2em; margin: 0.8em 0 0.4em; }
+              .md-preview h1 { font-size: 1.8em; font-weight: 700; border-bottom: 1px solid #e5e5e5; padding-bottom: 0.3em; margin: 0.6em 0 0.4em; }
+              .md-preview h2 { font-size: 1.4em; font-weight: 600; border-bottom: 1px solid #e5e5e5; padding-bottom: 0.2em; margin: 0.8em 0 0.4em; }
               .md-preview h3 { font-size: 1.15em; font-weight: 600; margin: 0.8em 0 0.3em; }
               .md-preview p { margin: 0.5em 0; }
               .md-preview ul, .md-preview ol { padding-left: 1.6em; margin: 0.5em 0; }
               .md-preview li { margin: 0.2em 0; }
-              .md-preview blockquote { border-left: 3px solid #3d444d; margin: 0.8em 0; padding: 0.4em 1em; color: #8b949e; }
-              .md-preview code { background: #21262d; border-radius: 3px; padding: 0.15em 0.4em; font-size: 0.88em; font-family: monospace; color: #f78166; }
-              .md-preview pre { background: #161b22; border: 1px solid #30363d; border-radius: 6px; padding: 16px; overflow-x: auto; margin: 0.8em 0; }
-              .md-preview pre code { background: none; color: #e6edf3; padding: 0; }
+              .md-preview blockquote { border-left: 3px solid #ddd; margin: 0.8em 0; padding: 0.4em 1em; color: #666; }
+              .md-preview code { background: #f3f4f6; border-radius: 3px; padding: 0.15em 0.4em; font-size: 0.88em; font-family: monospace; color: #d63031; }
+              .md-preview pre { background: #f6f8fa; border: 1px solid #e5e5e5; border-radius: 6px; padding: 16px; overflow-x: auto; margin: 0.8em 0; }
+              .md-preview pre code { background: none; color: #171717; padding: 0; }
               .md-preview table { border-collapse: collapse; width: 100%; margin: 0.8em 0; }
-              .md-preview th { background: #161b22; font-weight: 600; }
-              .md-preview th, .md-preview td { border: 1px solid #30363d; padding: 8px 12px; }
-              .md-preview tr:nth-child(even) td { background: #161b22; }
-              .md-preview a { color: #58a6ff; }
-              .md-preview hr { border: none; border-top: 1px solid #30363d; margin: 1.2em 0; }
-              .md-preview del { color: #8b949e; }
+              .md-preview th { background: #f6f8fa; font-weight: 600; }
+              .md-preview th, .md-preview td { border: 1px solid #e5e5e5; padding: 8px 12px; }
+              .md-preview tr:nth-child(even) td { background: #f6f8fa; }
+              .md-preview a { color: #1a6fd4; }
+              .md-preview hr { border: none; border-top: 1px solid #e5e5e5; margin: 1.2em 0; }
+              .md-preview del { color: #888; }
               .md-preview strong { font-weight: 700; }
               .md-preview em { font-style: italic; }
               .md-preview input[type=checkbox] { margin-right: 6px; }
+
+              [data-theme=dark] .md-preview h1 { border-bottom-color: #30363d; }
+              [data-theme=dark] .md-preview h2 { border-bottom-color: #30363d; }
+              [data-theme=dark] .md-preview blockquote { border-left-color: #3d444d; color: #8b949e; }
+              [data-theme=dark] .md-preview code { background: #21262d; color: #f78166; }
+              [data-theme=dark] .md-preview pre { background: #161b22; border-color: #30363d; }
+              [data-theme=dark] .md-preview pre code { color: #e6edf3; }
+              [data-theme=dark] .md-preview th { background: #161b22; }
+              [data-theme=dark] .md-preview th, [data-theme=dark] .md-preview td { border-color: #30363d; }
+              [data-theme=dark] .md-preview tr:nth-child(even) td { background: #161b22; }
+              [data-theme=dark] .md-preview a { color: #58a6ff; }
+              [data-theme=dark] .md-preview hr { border-top-color: #30363d; }
+              [data-theme=dark] .md-preview del { color: #8b949e; }
             `}</style>
           </>
         )}

@@ -21,11 +21,13 @@ export default function SignUp() {
   }
 
   return (
-    <div className="min-h-screen bg-white font-sans">
+    <div className="min-h-screen bg-white dark:bg-[#0a0a0a] text-[#171717] dark:text-[#ededed] font-sans">
       <div className="flex flex-col items-center mt-4">
-        <div className="w-full max-w-[500px] border border-gray-200 rounded-lg px-12 pt-12 pb-10 bg-white">
+        <div className="w-full max-w-[500px] border border-gray-200 dark:border-[#2a2a2a] rounded-lg px-12 pt-12 pb-10 bg-white dark:bg-[#111]">
           <h1 className="text-center text-[40px] font-normal mb-2">Sign up</h1>
-          <p className="text-center text-[#444] text-sm mb-10">Sign up to continue</p>
+          <p className="text-center text-[#444] dark:text-[#aaa] text-sm mb-10">
+            Sign up to continue
+          </p>
 
           <form onSubmit={handleSubmit}>
             {['name', 'email', 'password'].map((field) => (
@@ -36,7 +38,7 @@ export default function SignUp() {
                   value={form[field as keyof typeof form]}
                   onChange={(e) => setForm({ ...form, [field]: e.target.value })}
                   required
-                  className="w-full border-0 border-b border-[#aaa] outline-none text-[15px] py-2 text-[#333] bg-transparent"
+                  className="w-full border-0 border-b border-[#aaa] dark:border-[#444] outline-none text-[15px] py-2 text-[#333] dark:text-[#ccc] bg-transparent placeholder:text-[#aaa] dark:placeholder:text-[#555]"
                 />
               </div>
             ))}
@@ -62,18 +64,18 @@ export default function SignUp() {
           </form>
 
           <div className="flex items-center gap-3 mb-5">
-            <div className="flex-1 h-px bg-gray-200" />
-            <span className="text-[11px] tracking-wider text-[#888] font-semibold">
+            <div className="flex-1 h-px bg-gray-200 dark:bg-[#2a2a2a]" />
+            <span className="text-[11px] tracking-wider text-[#888] dark:text-[#555] font-semibold">
               ACCESS QUICKLY
             </span>
-            <div className="flex-1 h-px bg-gray-200" />
+            <div className="flex-1 h-px bg-gray-200 dark:bg-[#2a2a2a]" />
           </div>
 
           <div className="flex gap-3 justify-center">
             {['Google', 'Linkedin', 'SSO'].map((provider) => (
               <button
                 key={provider}
-                className="flex-1 py-2.5 border border-gray-200 rounded bg-white text-[#1a6fd4] font-semibold text-sm cursor-pointer"
+                className="flex-1 py-2.5 border border-gray-200 dark:border-[#2a2a2a] rounded bg-white dark:bg-[#111] text-[#1a6fd4] font-semibold text-sm cursor-pointer"
               >
                 {provider}
               </button>
@@ -81,7 +83,7 @@ export default function SignUp() {
           </div>
         </div>
 
-        <p className="mt-6 text-sm text-[#555]">
+        <p className="mt-6 text-sm text-[#555] dark:text-[#aaa]">
           Already have an account?{' '}
           <Link href="/signin" className="text-[#1a6fd4] no-underline">
             Sign in
