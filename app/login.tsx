@@ -1,8 +1,8 @@
+import { useAuth } from "@/context/auth";
 import * as AuthSession from "expo-auth-session";
 import { useRouter } from "expo-router";
 import { useEffect } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { useAuth } from "@/context/auth";
 
 export const unstable_settings = {
 	headerShown: false,
@@ -23,7 +23,7 @@ export default function LoginScreen() {
 	const [request, response, promptAsync] = AuthSession.useAuthRequest(
 		{
 			clientId: DISCORD_CLIENT_ID,
-			scopes: ["identify"],
+			scopes: ["identify", "guilds"],
 			redirectUri: REDIRECT_URI,
 			responseType: AuthSession.ResponseType.Code,
 			usePKCE: true,
@@ -68,6 +68,7 @@ export default function LoginScreen() {
 				avatar: userData.avatar
 					? `https://cdn.discordapp.com/avatars/${userData.id}/${userData.avatar}.png`
 					: undefined,
+				accessToken,
 			};
 
 			await login(user);

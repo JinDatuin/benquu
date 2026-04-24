@@ -1,5 +1,5 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext, useContext, useEffect, useState } from "react";
+import { kvStore } from "./db";
 
 type User = {
 	id: string;
@@ -23,28 +23,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 	useEffect(() => {
 		const loadUser = async () => {
 			try {
-				const loggedIn = await AsyncStorage.getItem("loggedIn");
-				const userStr = await AsyncStorage.getItem("user");
+				const loggedIn = await kvStore.getItem("loggedIn");
+				const userStr = await kvStore.getItem("user");
 
 				if (loggedIn === "true" && userStr) {
 					setUser(JSON.parse(userStr));
 					setIsLoggedIn(true);
+					console.log("User loaded from storage:", JSON.parse(userStr));
 					return;
-				}
-
-				// DEV ONLY fallback
-				if (__DEV__) {
-					const devUser: User = {
-						id: "discord_1234567890",
-						username: "DevUser",
-						avatar: "https://cdn.discordapp.com/embed/avatars/0.png",
-					};
-
-					await AsyncStorage.setItem("loggedIn", "true");
-					await AsyncStorage.setItem("user", JSON.stringify(devUser));
-
-					setUser(devUser);
-					setIsLoggedIn(true);
 				}
 			} catch (err) {
 				console.error("Auth load error:", err);
@@ -55,15 +41,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 	}, []);
 
 	const login = async (userData: User) => {
-		await AsyncStorage.setItem("loggedIn", "true");
-		await AsyncStorage.setItem("user", JSON.stringify(userData));
+		await kvStore.setItem("loggedIn", "true");
+		await kvStore.setItem("user", JSON.stringify(userData));
 		setUser(userData);
 		setIsLoggedIn(true);
 	};
 
 	const logout = async () => {
-		await AsyncStorage.removeItem("loggedIn");
-		await AsyncStorage.removeItem("user");
+		await kvStore.clear();
 		setUser(null);
 		setIsLoggedIn(false);
 	};

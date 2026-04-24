@@ -1,10 +1,9 @@
-import React from "react";
 import {
-    FlatList,
-    SafeAreaView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
+	FlatList,
+	SafeAreaView,
+	StyleSheet,
+	Text,
+	TouchableOpacity,
 } from "react-native";
 
 import NoteCard from "@/components/note-card";
@@ -17,6 +16,42 @@ type Note = {
 };
 
 const notes: Note[] = [
+	{
+		id: "1",
+		title: "Project Benquu",
+		subtitle: "Discord",
+		date: "11:35 AM",
+	},
+	{
+		id: "1",
+		title: "Project Benquu",
+		subtitle: "Discord",
+		date: "11:35 AM",
+	},
+	{
+		id: "1",
+		title: "Project Benquu",
+		subtitle: "Discord",
+		date: "11:35 AM",
+	},
+	{
+		id: "1",
+		title: "Project Benquu",
+		subtitle: "Discord",
+		date: "11:35 AM",
+	},
+	{
+		id: "1",
+		title: "Project Benquu",
+		subtitle: "Discord",
+		date: "11:35 AM",
+	},
+	{
+		id: "1",
+		title: "Project Benquu",
+		subtitle: "Discord",
+		date: "11:35 AM",
+	},
 	{
 		id: "1",
 		title: "Project Benquu",
@@ -57,15 +92,13 @@ export default function HomeScreen() {
 		<SafeAreaView style={styles.container}>
 			<Text style={styles.header}>Notes</Text>
 
-<FlatList
-	data={notes}
-	keyExtractor={(item) => item.id}
-	renderItem={({ item }) => <NoteCard {...item} />}
-	contentContainerStyle={{ flexGrow: 1 }}
-	ListEmptyComponent={
-		<Text style={styles.emptyText}>No Notes</Text>
-	}
-/>
+			<FlatList
+				data={notes}
+				keyExtractor={(item) => item.id}
+				renderItem={({ item }) => <NoteCard {...item} />}
+				contentContainerStyle={{ flexGrow: 1 }}
+				ListEmptyComponent={<Text style={styles.emptyText}>No Notes</Text>}
+			/>
 
 			<TouchableOpacity style={styles.fab}>
 				<Text style={styles.fabText}>+</Text>
@@ -106,10 +139,10 @@ const styles = StyleSheet.create({
 		fontSize: 28,
 	},
 
-  emptyText: {
-	color: "#888",
-	fontSize: 18,
-	textAlign: "center",
-	marginTop: "75%",
-},
+	emptyText: {
+		color: "#888",
+		fontSize: 18,
+		textAlign: "center",
+		marginTop: "75%",
+	},
 });
